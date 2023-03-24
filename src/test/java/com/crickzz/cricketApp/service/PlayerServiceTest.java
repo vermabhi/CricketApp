@@ -13,10 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.*;
 
@@ -161,7 +158,7 @@ public class PlayerServiceTest {
     @Test
     public void testRankingBatsman(){
         Mockito.when(matchRepo.findByMatchName(anyString()))
-                .thenReturn(Collections.singletonList(matchServiceTest.matchBuild()));
+                .thenReturn(Arrays.asList(matchServiceTest.matchBuild(),matchServiceTest.matchBuild()));
         Mockito.when(playerRepo.findByPlayerId(1))
                 .thenReturn(mockPlayer(1,1));
         Mockito.when(teamRepo.findByTeamId(1))
@@ -174,7 +171,7 @@ public class PlayerServiceTest {
     @Test
     public void testRankingBowler(){
         Mockito.when(matchRepo.findByMatchName(anyString()))
-                .thenReturn(Collections.singletonList(matchServiceTest.matchBuild()));
+                .thenReturn(Arrays.asList(matchServiceTest.matchBuild(),matchServiceTest.matchBuild()));
         Mockito.when(playerRepo.findByPlayerId(1))
                 .thenReturn(mockPlayer(1,1));
         Mockito.when(teamRepo.findByTeamId(1))
@@ -196,8 +193,8 @@ public class PlayerServiceTest {
         Assertions.assertNull(result);
     }
 
-    public Player mockPlayer(int playerId, int teamId){
-        Player player = Player.builder()
+    protected Player mockPlayer(int playerId, int teamId){
+        return Player.builder()
                 .playerName("P1")
                 .playerId(playerId)
                 .age(21)
@@ -206,7 +203,6 @@ public class PlayerServiceTest {
                 .bowlingStyle("right-arm-fast")
                 .teamId(teamId)
                 .build();
-        return player;
     }
 
 }

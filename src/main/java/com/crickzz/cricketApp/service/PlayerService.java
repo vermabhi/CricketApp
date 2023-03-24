@@ -84,17 +84,13 @@ public class PlayerService {
     public List<?> ranking(String role, String matchName){
         if(role ==null || matchName == null)
             return null;
-        if(!role.equals("batsman") && !role.equals("bowler"))
-            return null;
         List<Match> matches = matchRepo.findByMatchName(matchName);
         List<Map<?,?>> players = new ArrayList<>();
-        Collections.sort(matches, new Comparator<Match>() {
-            public int compare(Match o1, Match o2) {
+        matches.sort((Match o1, Match o2)-> {
                 if(role.equals("batsman")) {
                     return (o1.getRuns() < o2.getRuns()) ? 1 : -1;
                 }
                 return (o1.getWickets() < o2.getWickets()) ? 1 : -1;
-            }
         });
         int rank =0;
         for(Match match: matches) {
